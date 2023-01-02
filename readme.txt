@@ -11,4 +11,5 @@ Consumer Ack模式概念：
     默认为none，
     manual代表手动确认，
     auto代表使用抛出的异常来进行确认。
+    需要注意的是，还有一个设置项的名字为spring.rabbitmq.listener.direct.acknowledge-mode，设置了不起作用。
 2、使用channel.basicAck来代表确认收到消息，使用channel.basicNack来代表出异常了，需要将消息标记为Unacked。

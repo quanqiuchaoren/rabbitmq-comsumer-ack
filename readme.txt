@@ -7,4 +7,8 @@ Consumer Ack模式概念：
 
 
 如果设置Consumer Ack模式：
-1、可以再yml配置文件中设置
+1、可以在消费者端的yml配置文件中设置spring.rabbitmq.listener.simple.acknowledge-mode的值，
+    默认为none，
+    manual代表手动确认，
+    auto代表使用抛出的异常来进行确认。
+2、使用channel.basicAck来代表确认收到消息，使用channel.basicNack来代表出异常了，需要将消息标记为Unacked。

@@ -8,5 +8,3 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
-      direct:
-        acknowledge-mode: manual

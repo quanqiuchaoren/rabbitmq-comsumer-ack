@@ -15,8 +15,9 @@ public class RabbitMqListener {
     @RabbitListener(queues = "consumerAckQueue_ack")
     public void ListenerQueue(Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
         System.out.println("consumerAckQueue_ack message:" + new String(message.getBody()));
-        // 调用ack方法，手动确认消息已经收到，且消息被正常处理
-        channel.basicAck(tag, false);
+        // 调用ack方法，手动确认消息已经收到，且消息被正常处理，表示消息被正常消费。
+        // 如果消息既不ack也不ack，则消息就会被标记为Unack。然后就不会被再次被消费者消费了，且当服务下一次启动时，又会被消费一次。
+//        channel.basicAck(tag, false);
     }
 
     @RabbitListener(queues = "consumerAckQueue_nack_requeue")
@@ -45,7 +46,7 @@ public class RabbitMqListener {
          * than discarded/dead-lettered。如果为true，则重新入队，还可以被消费，如果为false，则重新入队，好像和死信队列有关。
          * @throws java.io.IOException if an error is encountered
          */
-        // 收到消息，但是将消息进行nack处理，调用nack方法，切requeue参数设置为true，则消息会重新入队，且会被标记为Unacked，在RabbitMQ的管理界面可以看到
+        // 收到消息，但是将消息进行nack处理，调用nack方法，切requeue参数设置为false，则消息不会重新入队，难道是进入了死信队列？
         channel.basicNack(tag, false, false);
     }
 }
